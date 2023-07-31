@@ -80,21 +80,33 @@
             var editCell = document.createElement("td");
             var saveCell = document.createElement("td");
             var deleteCell = document.createElement("td");
-
-
             var completedCell = document.createElement("td");
-  var checkbox = document.createElement("input");
-  checkbox.type = "checkbox";
-  checkbox.checked = taskData.completed;
-  checkbox.addEventListener("change", function () {
-    taskData.completed = this.checked;
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  });
-  completedCell.appendChild(checkbox);
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = taskData.completed;
+            checkbox.addEventListener("change", function () {
+                taskData.completed = this.checked;
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+            });
+            completedCell.appendChild(checkbox);
 
+            var prioritySelect = document.createElement("select");
+            var options = ["High", "Medium", "Low"];
+            for (var i = 0; i < options.length; i++) {
+                var option = document.createElement("option");
+                option.text = options[i];
+                option.value = options[i];
+                if (option.value === taskData.priority) {
+                    option.selected = true;
+                }
+                prioritySelect.appendChild(option);
+            }
+            prioritySelect.addEventListener("change", function () {
+                taskData.priority = this.value;
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+            });
+            priorityCell.appendChild(prioritySelect);
 
-
-            priorityCell.innerHTML = taskData.priority;
             dateCell.innerHTML = taskData.date;
             timeCell.innerHTML = taskData.time;
             taskNameCell.innerHTML = taskData.taskName;
@@ -114,19 +126,13 @@
             newRow.appendChild(completedCell);
             return newRow;
         }
-        
-            // Retrieve the tasks from local storage
-                var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-            // Update the tasks array to include the "completed" property (if it doesn't exist)
-                tasks.forEach(function (taskData) {
-                if (taskData.completed === undefined) {
-                    taskData.completed = false;
-                }
-                });
-
-
-
+        // Retrieve the tasks from local storage and add the "completed" property if it doesn't exist
+        tasks.forEach(function (taskData) {
+            if (taskData.completed === undefined) {
+                taskData.completed = false;
+            }
+        });
 
         // Display the tasks in the table
         var table = document.getElementById("taskTable");
@@ -141,7 +147,7 @@
             var cells = row.getElementsByTagName("td");
 
             // Enable editing for all cells except the first one (priority)
-            for (var i = 1; i < cells.length - 3; i++) {
+            for (var i = 1; i < cells.length - 4; i++) {
                 cells[i].contentEditable = true;
             }
         }
@@ -152,12 +158,18 @@
             var cells = row.getElementsByTagName("td");
 
             // Disable editing for all cells
-            for (var i = 1; i < cells.length - 3; i++) {
+            for (var i = 0; i < cells.length - 4; i++) {
                 cells[i].contentEditable = false;
             }
 
+            // Get the selected priority from the dropdown
+            var priorityCell = cells[0];
+            var prioritySelect = priorityCell.querySelector("select");
+            var selectedPriority = prioritySelect.value;
+
             // Update the task data in the local storage
             var rowIndex = row.rowIndex - 1;
+            tasks[rowIndex].priority = selectedPriority;
             tasks[rowIndex].date = cells[1].innerHTML;
             tasks[rowIndex].time = cells[2].innerHTML;
             tasks[rowIndex].taskName = cells[3].innerHTML;
