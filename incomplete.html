@@ -75,25 +75,25 @@
         function createTableRow(taskData) {
           var newRow = document.createElement("tr");
 
-var priorityCell = document.createElement("td");
-var dateCell = document.createElement("td");
-var timeCell = document.createElement("td");
-var taskNameCell = document.createElement("td");
-var descriptionCell = document.createElement("td");
+            var priorityCell = document.createElement("td");
+            var dateCell = document.createElement("td");
+            var timeCell = document.createElement("td");
+            var taskNameCell = document.createElement("td");
+            var descriptionCell = document.createElement("td");
 
-priorityCell.innerHTML = taskData.priority;
-dateCell.innerHTML = taskData.date;
-timeCell.innerHTML = taskData.time;
-taskNameCell.innerHTML = taskData.taskName;
-descriptionCell.innerHTML = taskData.description;
+            priorityCell.innerHTML = taskData.priority;
+            dateCell.innerHTML = taskData.date;
+            timeCell.innerHTML = taskData.time;
+            taskNameCell.innerHTML = taskData.taskName;
+            descriptionCell.innerHTML = taskData.description;
 
-newRow.appendChild(priorityCell);
-newRow.appendChild(dateCell);
-newRow.appendChild(timeCell);
-newRow.appendChild(taskNameCell);
-newRow.appendChild(descriptionCell);
+            newRow.appendChild(priorityCell);
+            newRow.appendChild(dateCell);
+            newRow.appendChild(timeCell);
+            newRow.appendChild(taskNameCell);
+            newRow.appendChild(descriptionCell);
 
-return newRow;
+            return newRow;
         }
     </script>
 
@@ -187,6 +187,5 @@ return newRow;
   </footer>
 </div>
 <!-- Footer End -->
-        
-      </body>
+         </body>
 </html>
