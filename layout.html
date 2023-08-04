@@ -85,13 +85,15 @@
     </div>
 
     <script>
+        // step1:click to add button for onclick = "addTask" to add form data
+        // step2:then write a function addTask()
         function addTask() {
             var priority = document.getElementById("Branch").value;
             var date = document.getElementById("date").value;
             var time = document.getElementById("time").value;
             var taskName = document.getElementById("task").value;
             var description = document.getElementById("description").value;
-
+        //  create object 
             var taskData = {
                 priority: priority,
                 date: date,
@@ -99,15 +101,13 @@
                 taskName: taskName,
                 description: description,
             };
-
-            // Store the task data in local storage
-            var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        // step3: store the task from local storage
+            var tasks = JSON.parse(localStorage.getItem("tasks")) || []; // store task for local storage  or empty array
             tasks.push(taskData);
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-
-            // Show the window alert
+            localStorage.setItem("tasks", JSON.stringify(tasks));   // setitem from local storage inform of key and value
+        // step4: Show the window alert
             window.alert("Task added successfully!");
-        }
+            }
 
        
     </script>

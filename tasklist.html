@@ -49,6 +49,7 @@
     <div class="container mt-5">
         
         <h1 style="text-align: center; color: white; background-color: black;">TO DO TASK LIST</h1>
+        <!-- step1: create an empty table , table id is "taskTable" -->
         <table id="taskTable" class="table table-bordered bg-info">
             <tr style="color: white;">
                 <th>Priority</th>
@@ -65,56 +66,61 @@
     </div>
      
     <script>
-        // Retrieve the tasks from local storage
-        var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        // step2: Retrieve the tasks from local storage form task are add in layout page
+            var tasks = JSON.parse(localStorage.getItem("tasks")) || [];  // store task for local storage  or empty array
 
-        // Function to create a row in the table
+        // step3: write a function to create a row in the table
         function createTableRow(taskData) {
-            var newRow = document.createElement("tr");
+            var newRow = document.createElement("tr");  //Create a new row (newRow) element.
 
-            var priorityCell = document.createElement("td");
-            var dateCell = document.createElement("td");
-            var timeCell = document.createElement("td");
-            var taskNameCell = document.createElement("td");
-            var descriptionCell = document.createElement("td");
-            var editCell = document.createElement("td");
-            var saveCell = document.createElement("td");
-            var deleteCell = document.createElement("td");
-            var completedCell = document.createElement("td");
-            var checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.checked = taskData.completed;
-            checkbox.addEventListener("change", function () {
-                taskData.completed = this.checked;
-                localStorage.setItem("tasks", JSON.stringify(tasks));
+            var priorityCell = document.createElement("td");  //Create new table data (td) elements for each column in the table: priorityCell
+            var dateCell = document.createElement("td");      // datecell
+            var timeCell = document.createElement("td");      //timecell
+            var taskNameCell = document.createElement("td");  //tasknamecell
+            var descriptionCell = document.createElement("td"); //descriptioncell 
+            var editCell = document.createElement("td");        //editcell
+            var saveCell = document.createElement("td");        //savecell
+            var deleteCell = document.createElement("td");      //deletecell
+            var completedCell = document.createElement("td");   //completecell
+            var checkbox = document.createElement("input");     //Create an input element (checkbox) .
+            checkbox.type = "checkbox";                         //type "checkbox" to represent the task's completion status
+            checkbox.checked = taskData.completed;              //Set the checkbox's checked property to the value of taskData.completed.
+           
+           
+            checkbox.addEventListener("change", function () {   // This code sets up an addeventlistener on a checkbox element.
+                taskData.completed = this.checked;              // When the checkbox is checked or unchecked:  Update the taskData.completed with the new checkbox state.
+                localStorage.setItem("tasks", JSON.stringify(tasks));    // Convert the tasks array to a JSON string and save it in the local storage with the key "tasks".
             });
-            completedCell.appendChild(checkbox);
+            completedCell.appendChild(checkbox);    //add a checkbox element completedcell
 
-            var prioritySelect = document.createElement("select");
+            var prioritySelect = document.createElement("select");//crete a dropdown select elements priority
             var options = ["High", "Medium", "Low"];
-            for (var i = 0; i < options.length; i++) {
-                var option = document.createElement("option");
+            for (var i = 0; i < options.length; i++) {      //loop for
+                var option = document.createElement("option");   // Create an option element.
                 option.text = options[i];
                 option.value = options[i];
-                if (option.value === taskData.priority) {
+                if (option.value === taskData.priority) {        // If the option's value matches the task's priority, pre-select this option.
                     option.selected = true;
                 }
-                prioritySelect.appendChild(option);
+                prioritySelect.appendChild(option);         // Add the option to the prioritySelect dropdown.
             }
-            prioritySelect.addEventListener("change", function () {
+            prioritySelect.addEventListener("change", function () {     // Add an event listener to the prioritySelect dropdown. When the user changes the selected priority, the function is executed.
                 taskData.priority = this.value;
-                localStorage.setItem("tasks", JSON.stringify(tasks));
+                localStorage.setItem("tasks", JSON.stringify(tasks));     // Save the updated task list in the browser's memory (local storage).
             });
-            priorityCell.appendChild(prioritySelect);
+            priorityCell.appendChild(prioritySelect);       //add the  prioritySelect dropdownto prioritycell
 
-            dateCell.innerHTML = taskData.date;
+            dateCell.innerHTML = taskData.date; // Set the cell contents to the task's data.
             timeCell.innerHTML = taskData.time;
             taskNameCell.innerHTML = taskData.taskName;
             descriptionCell.innerHTML = taskData.description;
+
+            // Set the edit, save, and delete buttons click handlers.
             editCell.innerHTML = '<button class="btn btn-primary" onclick="editTask(this)">Edit</button>';
             saveCell.innerHTML = '<button class="btn btn-success" onclick="saveTask(this)">Save</button>';
             deleteCell.innerHTML = '<button class="btn btn-danger" onclick="deleteTask(this)">Delete</button>';
 
+            // Append all the cells to the newRow, forming a complete row in the table.
             newRow.appendChild(priorityCell);
             newRow.appendChild(dateCell);
             newRow.appendChild(timeCell);
@@ -124,69 +130,79 @@
             newRow.appendChild(saveCell);
             newRow.appendChild(deleteCell);
             newRow.appendChild(completedCell);
-            return newRow;
+            return newRow;  //return newrow 
         }
 
-        // Retrieve the tasks from local storage and add the "completed" property if it doesn't exist
-        tasks.forEach(function (taskData) {
-            if (taskData.completed === undefined) {
-                taskData.completed = false;
+        //step4: Retrieve the tasks from local storage and add the "completed" property if it doesn't exist
+        tasks.forEach(function (taskData) {     // Loop through each taskData in the tasks array
+            if (taskData.completed === undefined) {     // Check if the 'completed' property is not defined
+                taskData.completed = false;          // If 'completed' is not defined, set it to false
             }
         });
 
-        // Display the tasks in the table
-        var table = document.getElementById("taskTable");
-        tasks.forEach(function (taskData) {
-            var newRow = createTableRow(taskData);
-            table.appendChild(newRow);
+        // step5: Display the tasks in the table
+        var table = document.getElementById("taskTable");   //Get the table element with the id "taskTable" in html
+        tasks.forEach(function (taskData) {         // Loop  foreach taskData in the tasks array
+            var newRow = createTableRow(taskData);        // Create a new table row 
+            table.appendChild(newRow);          // Append the new row element to the table
         });
 
-        // Function to handle the edit button click
+        // step6: write a Function to handle the edit button click
         function editTask(button) {
-            var row = button.parentNode.parentNode;
-            var cells = row.getElementsByTagName("td");
-
+            var row = button.parentNode.parentNode; //first parentnode is tr & second parentnode is td
+            var cells = row.getElementsByTagName("td");    // Get all cells in the row
+            
             // Enable editing for all cells except the first one (priority)
             for (var i = 1; i < cells.length - 4; i++) {
                 cells[i].contentEditable = true;
             }
         }
 
-        // Function to handle the save button click
-        function saveTask(button) {
-            var row = button.parentNode.parentNode;
-            var cells = row.getElementsByTagName("td");
+        // step7: write a Function to handle the save button click
+            function saveTask(button) {
+                var row = button.parentNode.parentNode; //first parentnode is tr & second parentnode is td
 
-            // Disable editing for all cells
-            for (var i = 0; i < cells.length - 4; i++) {
-                cells[i].contentEditable = false;
+                var cells = row.getElementsByTagName("td"); // Get all cells in the row
+
+                // Disable editing for all cells 
+                for (var i = 0; i < cells.length - 4; i++) {
+                    cells[i].contentEditable = false;
+                }
+
+                // Get the selected priority from the dropdown
+                var priorityCell = cells[0]; // First cell in the row, which contains the priority dropdown
+                var prioritySelect = priorityCell.querySelector("select"); // Find the dropdown element within the first cell
+                var selectedPriority = prioritySelect.value; // Get the selected value from the dropdown
+
+                // Update the task data in the local storage
+                var rowIndex = row.rowIndex - 1; // Get the index of the row in the table 
+
+                // Assuming 'tasks' is an array that contains the task data
+                // Update the priority, date, time, taskName, and description of the task
+                tasks[rowIndex].priority = selectedPriority; 
+                tasks[rowIndex].date = cells[1].innerHTML;
+                tasks[rowIndex].time = cells[2].innerHTML; 
+                tasks[rowIndex].taskName = cells[3].innerHTML; 
+                tasks[rowIndex].description = cells[4].innerHTML; 
+
+               
+                localStorage.setItem("tasks", JSON.stringify(tasks));  // Save the updated 'tasks' array back to local storage as a JSON string
             }
 
-            // Get the selected priority from the dropdown
-            var priorityCell = cells[0];
-            var prioritySelect = priorityCell.querySelector("select");
-            var selectedPriority = prioritySelect.value;
 
-            // Update the task data in the local storage
-            var rowIndex = row.rowIndex - 1;
-            tasks[rowIndex].priority = selectedPriority;
-            tasks[rowIndex].date = cells[1].innerHTML;
-            tasks[rowIndex].time = cells[2].innerHTML;
-            tasks[rowIndex].taskName = cells[3].innerHTML;
-            tasks[rowIndex].description = cells[4].innerHTML;
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-        }
+        //step:8 write a Function to handle the delete button click
+            function deleteTask(button) {
+        
+                var row = button.parentNode.parentNode;  //first parentnode is tr & second parentnode is td
+                row.parentNode.removeChild(row);  // Remove the entire row from the table
 
-        // Function to handle the delete button click
-        function deleteTask(button) {
-            var row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
+                // Update the task data in the local storage after deletion
+                var rowIndex = row.rowIndex - 1; 
+                tasks.splice(rowIndex, 1);  // Remove the task at the rowIndex from the 'tasks' array
 
-            // Update the task data in the local storage after deletion
-            var rowIndex = row.rowIndex - 1;
-            tasks.splice(rowIndex, 1);
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-        }
+        
+                localStorage.setItem("tasks", JSON.stringify(tasks));      // Save the updated 'tasks' array back to local storage as a JSON string
+            }
     </script>
 
 

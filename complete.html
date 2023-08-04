@@ -60,41 +60,41 @@
       </div>
 
       <script>
-        // Retrieve the tasks from local storage
-        var tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        //step1: Retrieve the tasks from local storage.form task are add in taskview page
+            var tasks = JSON.parse(localStorage.getItem("tasks")) || [];        // store task for local storage  or empty array
 
-        // Filter completed tasks and populate the completed tasks table
-        var completedTasks = tasks.filter(task => task.completed);
-        var completedTable = document.getElementById("completedTasksTable");
-        completedTasks.forEach(function (taskData) {
-            var newRow = createTableRow(taskData);
-            completedTable.appendChild(newRow);
-        });
-
-        // Function to create a row in the table (same function as on the main page)
-        function createTableRow(taskData) {
-          var newRow = document.createElement("tr");
-
-            var priorityCell = document.createElement("td");
-            var dateCell = document.createElement("td");
-            var timeCell = document.createElement("td");
-            var taskNameCell = document.createElement("td");
-            var descriptionCell = document.createElement("td");
-
-            priorityCell.innerHTML = taskData.priority;
-            dateCell.innerHTML = taskData.date;
-            timeCell.innerHTML = taskData.time;
-            taskNameCell.innerHTML = taskData.taskName;
-            descriptionCell.innerHTML = taskData.description;
-
-            newRow.appendChild(priorityCell);
-            newRow.appendChild(dateCell);
-            newRow.appendChild(timeCell);
-            newRow.appendChild(taskNameCell);
-            newRow.appendChild(descriptionCell);
-
-            return newRow;
-        }
+        // step2: Filter the tasks to only include completed tasks.
+            var completedTasks = tasks.filter(task => task.completed);
+            var completedTable = document.getElementById("completedTasksTable");
+            completedTasks.forEach(function (taskData) {
+                var newRow = createTableRow(taskData);   // Create a new row in the table.
+                completedTable.appendChild(newRow);        // Append the new row to the table.
+            });            
+   
+        // step3:write aFunction to create a row in the table (same function as on the main page)
+            function createTableRow(taskData) {
+                var newRow = document.createElement("tr"); // Create a new row element.
+    
+                var priorityCell = document.createElement("td"); // Create cells in the table
+                var dateCell = document.createElement("td");
+                var timeCell = document.createElement("td");
+                var taskNameCell = document.createElement("td");
+                var descriptionCell = document.createElement("td");
+    
+                priorityCell.innerHTML = taskData.priority;   // Set the cell values.  
+                dateCell.innerHTML = taskData.date;
+                timeCell.innerHTML = taskData.time;
+                taskNameCell.innerHTML = taskData.taskName;
+                descriptionCell.innerHTML = taskData.description;
+    
+                newRow.appendChild(priorityCell);  // Append the cells to the row.
+                newRow.appendChild(dateCell);
+                newRow.appendChild(timeCell);
+                newRow.appendChild(taskNameCell);
+                newRow.appendChild(descriptionCell);
+    
+                return newRow;        // Return the row.
+          }
     </script> 
     
      <!-- Footer start -->
